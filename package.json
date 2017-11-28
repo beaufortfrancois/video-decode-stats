@@ -1,0 +1,10 @@
+{
+  "name": "video-decode-stats",
+  "version": "1.0.0",
+  "main": "main.js",
+  "dependencies": {
+    "leveldown": "^2.1.0",
+    "levelup": "^2.0.1",
+    "protobufjs": "^6.8.1"
+  }
+}
