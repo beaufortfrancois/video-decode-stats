@@ -1,3 +1,6 @@
+Media Capabilities Playground
+=============================
+
 I wanted to be able to read VideoDecodeStats LevelDB database from Chrome OS so...
 
 1. I've deleted `/home/chronos/user/VideoDecodeStats/`
@@ -8,7 +11,7 @@ I wanted to be able to read VideoDecodeStats LevelDB database from Chrome OS so.
 6. And wrote this program
 
 ```
-$ node main.js 
+$ node main.js
 12|3840x2160|30  :  DecodeStatsProto {
   framesDecoded: Long { low: 127, high: 0, unsigned: true },
   framesDropped: Long { low: 63, high: 0, unsigned: true },
@@ -23,4 +26,39 @@ $ node main.js
   framesDecodedPowerEfficient: Long { low: 0, high: 0, unsigned: true } }
 ```
 
-Source: https://cs.chromium.org/chromium/src/media/capabilities/video_decode_stats.proto
+Then I decided I wanted to write my own data into this database so...
+
+1. I've updated my script to take two parameters:
+
+  - `-d` The directory path of `VideoDecodeStats` so that I can replace inline the database used by Chrome. Note that Chrome needs to be closed when updates are made.
+  - `-f` The CSV file that contains new stats. When this is specified, the database is cleaned first.
+
+2. Here's how I use it for instance:
+
+```
+more data.csv
+12,3840x2160,30,127,12,0
+12,320x240,30,127,12,0
+12,3840x2160,60,127,12,0
+24,3840x2160,60,127,12,0
+```
+
+```
+node main.js -d /tmp/foo/Default/VideoDecodeStats -f data.csv
+/Applications/Chromium.app/Contents/MacOS/Chromium --user-data-dir=/tmp/foo
+```
+
+Finally I check out https://beaufortfrancois.github.io/sandbox/media-capabilities/decoding-info-2.html
+
+Notes
+=====
+
+The format of the comma separated lines file is:
+`profile_id,resolution,frame_rate,frames_decoded,frames_dropped,frames_decoded_power_efficient`
+
+The `profile_id` comes from https://chromium.googlesource.com/chromium/src/media/+/master/base/video_codecs.h#49
+
+Resources
+=========
+
+https://cs.chromium.org/chromium/src/media/capabilities/video_decode_stats.proto

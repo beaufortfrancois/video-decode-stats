@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "main.js",
   "dependencies": {
+    "argparse": "^1.0.9",
+    "fs-extra": "^5.0.0",
     "leveldown": "^2.1.0",
     "levelup": "^2.0.1",
     "protobufjs": "^6.8.1"
